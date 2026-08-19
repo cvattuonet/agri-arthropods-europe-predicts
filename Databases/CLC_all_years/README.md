@@ -1,4 +1,4 @@
-#Corine Land Cover CLC
+# Corine Land Cover CLC
 
 - Source: European Union's Copernicus Land Monitoring Service information (2020)
 - Download links:

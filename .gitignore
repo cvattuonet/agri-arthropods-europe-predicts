@@ -1,0 +1,33 @@
+# OS / editor junk
+.DS_Store
+.Rhistory
+.RData
+.Rproj.user/
+
+# Raw databases: too large for git. See Databases/*/README.md for download instructions.
+Databases/*/*
+!Databases/*/README.md
+
+# Exception: Smith2006 coordinates were shared directly by the author (small
+# files, not a public download) - keep them tracked.
+!Databases/Smith2006_coordinates/Smith2006_coodinates_from_author.csv
+!Databases/Smith2006_coordinates/Smith2006_coordinates_from_author_edges.csv
+
+# Exception: ERA5-Land climate file is small enough (~90MB) to commit directly
+# instead of leaving as a download stub.
+!Databases/Climate_Copernicus/data_stream-moda.nc
+
+# Intermediate outputs: regenerate by running scripts 1-5 against the downloaded
+# databases. The three summary tables below are kept so results/data characterisation
+# can be explored without re-running the full pipeline.
+Intermediate_dataset/*
+!Intermediate_dataset/README.md
+!Intermediate_dataset/sites_for_abundance_models.csv
+!Intermediate_dataset/sites_for_richness_models.csv
+!Intermediate_dataset/abundance_sites_for_vizualization_nonscale.csv
+
+# leftover from bridge cleanup - safe to delete manually
+_to_delete/
+
+# Old model outputs, superseded after re-running script 7 with corrected sampling effort
+Models_results_old/

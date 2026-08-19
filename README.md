@@ -1,6 +1,6 @@
 # Arthropod Biodiversity and Agricultural Land Use in Europe
 
-##Abstract
+# Abstract
 
 Agriculture is often described as one of the main drivers of arthropod decline, 
 but the contribution of the individual practices behind it has not been disentangled 
@@ -46,7 +46,7 @@ and arachnids across habitat types at European scale, together with a curated da
 can be used in further work.
 
 
-##Overview
+# Overview
 This repository contains the full R pipeline used to build a site-level
 dataset of arthropod biodiversity across European PREDICTS sites, extract
 agronomic and landscape predictors around each site, and fit mixed-effects
@@ -54,7 +54,7 @@ models (Gaussian, Poisson, negative binomial, Tweedie, zero-inflated NB, and
 LASSO-penalized) relating biodiversity outcomes to those predictors.
 
 
-##Pipeline / script order
+# Pipeline 
 Run the scripts in order; each one reads the outputs of the previous steps.
 
 1. `1_Biodiversity_Dataset_Creation.R` - build the initial site-level
@@ -79,7 +79,7 @@ Run the scripts in order; each one reads the outputs of the previous steps.
 10. `10_Figures.R` - reproduces the manuscript/thesis figures.
 
 
-## Data availability
+# Data availability
 The raw source databases used by this pipeline are too large to host on
 GitHub (several hundred GB in total). Each subfolder under `Databases/`
 contains a `README.md` stub with the dataset name and source/download link.

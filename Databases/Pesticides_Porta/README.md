@@ -6,7 +6,6 @@
 
 - Download link:https://figshare.com/articles/dataset/Pesticides_application_rate_maps_in_the_European_Union_at_high_spatial_resolution/27743286
 
-
 - Expected files: Download all, open the .zip folder and paste the full maps_geotiff subfolder (decompressed) 
   which contains the tiff files for each active substance.
 

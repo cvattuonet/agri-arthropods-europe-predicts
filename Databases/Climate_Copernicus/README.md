@@ -1,7 +1,7 @@
 # Copernicus climate data (ERA5-Land)
 
 The file in this folder (`data_stream-moda.nc`) is committed directly
-rather than left as a download stub, since it's small enough to include.
+rather than left as to download, since it's small enough to include.
 
 - Source: Copernicus Climate Data Store (CDS), ERA5-Land monthly averaged
   reanalysis (`reanalysis-era5-land-monthly-means`):
@@ -14,7 +14,7 @@ rather than left as a download stub, since it's small enough to include.
 
 - Format: NetCDF.
 
-- How it was obtained:*downloaded via the CDS API using the R `ecmwfr`
+- How it was obtained:downloaded via the CDS API using the R `ecmwfr`
   package. The exact request (commented, since it needs your own CDS
   account credentials) is in `4_Fixed_effects_calculation.R`, in the
   `##CLIMATE` section - uncomment it and fill in your own `user`/`key` to

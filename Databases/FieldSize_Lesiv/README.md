@@ -1,6 +1,6 @@
 # Global field size
 
-- Source: [43].	Lesiv, M., Laso Bayas, J. C., See, L., Duerauer, M., Dahlia, D., Durando, N., Hazarika, R., Kumar Sahariah, 
+- Source: Lesiv, M., Laso Bayas, J. C., See, L., Duerauer, M., Dahlia, D., Durando, N., Hazarika, R., Kumar Sahariah, 
   P., Vakolyuk, M., Blyshchyk, V., Bilous, A., Perez‐Hoyos, A., Gengler, S., Prestele, R., Bilous, S., Akhtar, I. U. H., Singha, 
   K., Choudhury, S. B., Chetri, T., … Fritz, S. (2019). 
   Estimating the global distribution of field size using crowdsourcing. Global Change Biology, 25(1), 174–186.

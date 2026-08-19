@@ -1,6 +1,6 @@
 # Cropland extent 
 
-- Source: [44].	Liao, Y., Chen, S., Bai, Y., Wang, J., & Gong, P. (2026). 
+- Source:	Liao, Y., Chen, S., Bai, Y., Wang, J., & Gong, P. (2026). 
   Global 30-m annual cropland extent dynamics (2000–2024): A consistent baseline 
   of structural evolution and regional disparities. ESSD – Anthroposphere/Land cover and land use. 
   https://doi.org/10.5194/essd-2025-838

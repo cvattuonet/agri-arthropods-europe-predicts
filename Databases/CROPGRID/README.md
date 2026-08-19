@@ -1,6 +1,6 @@
 # CROPGRIDS
 
-- Source: [66].	Tang, F. H. M., Nguyen, T. H., Conchedda, G., Casse, L., Tubiello, F. N., & Maggi, F. (2024). 
+- Source: Tang, F. H. M., Nguyen, T. H., Conchedda, G., Casse, L., Tubiello, F. N., & Maggi, F. (2024). 
   CROPGRIDS: A global geo-referenced dataset of 173 crops. Scientific Data, 11(1), 413. 
   https://doi.org/10.1038/s41597-024-03247-7
   

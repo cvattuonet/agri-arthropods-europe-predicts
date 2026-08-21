@@ -60,6 +60,3 @@ that folder's `README.md`).
 Three key site-level summary tables are committed directly so results can be explored without
 re-running the full pipeline.
 
-`Models_results/` (fitted models and `dredge()` model-selection objects) is
-small enough to be included directly in the repository although it can be obtained 
-by running scripts 7-8. 

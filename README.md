@@ -2,48 +2,13 @@
 
 # Abstract
 
-Agriculture is often described as one of the main drivers of arthropod decline, 
-but the contribution of the individual practices behind it has not been disentangled 
-at large scales. Analyses at that scale represent agriculture through broad 
-land-use classes and generally reduce management intensity to a single proxy. 
-This is partly because the global spatial data describing what is actually applied
-in the field are coarse or absent, and partly because the biodiversity records 
-available are compiled from many heterogeneous sources. In Europe, some products 
-describing agricultural inputs and the structure of the agricultural landscape are 
-available at a finer resolution than their global equivalents. This study asked whether
-a global biodiversity database, combined with independent large-scale agronomic datasets,
-can be used to separate the effects of individual agricultural practices and of the surrounding 
-landscape composition on arthropods in Europe, and whether those effects differ between habitat types.
+Agriculture is often described as a main driver of arthropod decline, but the contribution of the individual practices behind it has not been disentangled at large scales. Analyses at that scale represent agriculture through broad land-use classes and generally reduce management intensity to a single proxy. This is partly because the global spatial data describing practices are coarse or absent. Another challenge is that available biodiversity records are compiled from many heterogeneous sources. In Europe, data describing agricultural inputs and structure of the agricultural landscapes is available at a finer resolution than their global equivalents. This study asked whether a global biodiversity database combined with independent European agronomic datasets can be used to separate the effects of individual practices and of the landscape composition on arthropods in Europe, and whether those effects differ between habitat types.
 
-Records of Insecta and Arachnida for the European Union and the United Kingdom were 
-extracted from the 2023 release of PREDICTS and curated reference by reference against the 
-primary publications. The dataset comprised 235,661 records from 60 studies 
-covering 2,456 sites sampled between 2000 and 2011. Each site was assigned a local 
-habitat category crossing land-use classes with use intensity, and was characterized
-within a radius of 1 kilometer by land cover, pesticide and nitrogen application, crop diversity, 
-field size and climate, drawn from public spatial products. Total abundance and taxa 
-richness responses were then modelled with mixed-effects models.
+Records of Insecta and Arachnida for the European Union and the United Kingdom were extracted from the 2023 release of PREDICTS and curated by reference against the primary publications. The dataset comprised 235,661 records from 60 studies covering 2,456 sites sampled between 2000 and 2011. Each site was assigned a local habitat category crossing land-use classes with use intensity (from PREDICTS), and was characterized within a radius of 1 km by main land cover categories, pesticide and nitrogen application, crop diversity, field size and climate, drawn from public spatial products. The response of total abundance and taxa richness were then modelled with mixed-effects models.
 
-Habitats under little or no management held higher taxa richness than intensively managed 
-ones, with abundance following the same direction but with weaker support. The least disturbed
-habitat was not the richest: minimally used pasture held 96% more individuals and 21% more taxa 
-than natural vegetation, and lightly used semi-natural vegetation 72% and 36% more. A clear 
-gradient across use intensity appeared only in pastures. Pesticide application in the 
-surrounding landscape reduced abundance by 12.9% and richness by 7.5%, with no evidence that 
-the effect differed between habitats. Effect of crop diversity and the prevalence of 
-small fields depends on local habitat, with greater crop diversity associated 
-with higher abundance and richness in intensively used cropland, but lower in natural vegetation.
-Contrary to what was expected, natural vegetation cover in the landscape did not buffer 
-these pressures. Marginal R² was low throughout (0.034 to 0.051), a pattern common to studies 
-using this database that nonetheless calls for testing alternative modelling approaches.
+Habitats under little or no management held higher taxa richness than intensively managed ones, with abundance following the same direction but with weaker support. The least disturbed habitat was not the richest: minimally used pasture held 96% more individuals and 21% more taxa than natural vegetation and lightly used semi-natural vegetation 72% and 36% more. A clear gradient across use intensity appeared only in pastures. Increased pesticide use in the surrounding landscape reduced abundance by 12.9% and richness by 7.5%, with no evidence that the effect differed between habitats, so semi-natural habitat are as much impacted as crop fields. The effects of crop diversity and the prevalence of small fields depended on local habitat, with greater crop diversity associated with higher abundance and richness in intensively used cropland, but lower in natural vegetation. Contrary to what was expected, natural vegetation cover in the landscape did not buffer these pressures. Marginal R² was low throughout (0.034 to 0.051), a pattern common to studies using this database that nonetheless calls for testing alternative modelling approaches.
 
-Nitrogen application could not be separated from pesticides, and no spatial products were 
-available for practices such as tillage, rotation or organic management. Separating individual 
-practices at this scale therefore remains limited by the agronomic data, and by the biases of 
-the biodiversity database. The analysis nonetheless provides, to our knowledge, the first 
-estimate of the effect of pesticide application on the abundance and richness of insects 
-and arachnids across habitat types at European scale, together with a curated dataset that 
-can be used in further work.
+Nitrogen application could not be separated from pesticides, and no spatial products were available for practices such as tillage, or organic management. Separating individual practices at this scale remains limited by the agronomic data, and by the biases of the biodiversity database. The analysis nonetheless provides, to our knowledge, the first estimate of the effect of pesticide application on the abundance and richness of insects and arachnids across habitat types at the European scale, together with a curated dataset that can be used in further work.
 
 
 # Overview

@@ -15,11 +15,11 @@ pacman::p_load(readr, dplyr, tidyr)
 
 #LOAD-----------------------------------------------------------
 sites_df<- read_delim("Intermediate_dataset/sites_df_predictors.csv") 
-observations_df <- read_delim("Intermediate_dataset/observations_mod.csv" )
+observations_df <- read_delim("Intermediate_dataset/observations_mod.csv")
 
 #HABITAT CATEGORY CREATION-----------------------------------------------------------
 #creating the category
-sites_df <- sites_df %>% mutate( Habitat_category = paste(Predominant_land_use_mod,Use_intensity,sep = "_") )
+sites_df <- sites_df %>% mutate( Habitat_category = paste(Predominant_land_use_mod,Use_intensity,sep = "_"))
 
 #adding it to observations
 observations_df <-  observations_df %>%
@@ -56,9 +56,9 @@ sites_df <- sites_df %>%
 
 #we need to take out the references that are only for abundance, given what was agreed on the review of primary literature.
 references_only_abundance = c("Darvill et al. 2004", "Nielsen et al. 2011")  #Nielsen et al. 2011 is already out (due to the recategorization of land uses)
-sites_df_for_richness <- sites_df  %>% #we take out 2 references for the richness assessment given what was agreed on the review of primary literature. 
-  filter (!Reference %in% references_only_abundance)
-
+sites_df_for_richness <- sites_df  %>% #we take out 2 references for the richness assessment given what was agreed on the review of primary literature.
+  filter(!Reference %in% references_only_abundance)
+  
 #CREATING THE DATABASE FOR MODELLING------------------------------------------------------------
 categorical_predictors= c("Habitat_category","Predominant_land_use_mod","Use_intensity") 
 
@@ -71,7 +71,7 @@ continuous_predictors<- c("urban_pct_1000m_mod", "water_pct_1000m_mod", "natural
 random_effect=c("SS", "SSB", "Coordinate_ID","Sampling_method", "SSBS")
 response_abundance= c("log_TA", "TA_corrected_mod","TA")
 response_richnes= c("taxa_richness", "genus_richness")
-others = c("Rescaled_sampling_effort_mod", "Country", "Sample_start_year")
+others = c("Rescaled_sampling_effort_mod", "Country", "Sample_start_year", "Diversity_metric_unit")
 
 df_1000 <- sites_df %>%select(all_of(c(continuous_predictors, categorical_predictors, random_effect, response_abundance,others)))
 df_rich_1000 <- sites_df_for_richness %>% select(all_of(c(continuous_predictors, categorical_predictors, random_effect, response_richnes, others)))
@@ -82,6 +82,7 @@ df_1000_scaled[continuous_predictors] <- lapply(df_1000_scaled[continuous_predic
 
 df_rich_1000_scaled <- df_rich_1000
 df_rich_1000_scaled[continuous_predictors] <- lapply(df_rich_1000_scaled[continuous_predictors], scale)
+
 
 #CLEANING NA VALUES------------------------------------------------------------
 #inspection of NA values
@@ -105,6 +106,10 @@ df_1000_scaled_clean$Use_intensity <- relevel(factor(df_1000_scaled_clean$Use_in
 df_rich_1000_scaled_clean$Predominant_land_use_mod <- relevel(factor(df_rich_1000_scaled_clean$Predominant_land_use_mod), ref = "Natural vegetation")
 df_rich_1000_scaled_clean$Habitat_category <- relevel(factor(df_rich_1000_scaled_clean$Habitat_category), ref = "Natural vegetation")
 df_rich_1000_scaled_clean$Use_intensity <- relevel(factor(df_rich_1000_scaled_clean$Use_intensity), ref = "Minimal use")
+
+#TAKE OUT NON INDIVIDUALS VALUES-----------------------------------------------------------
+df_1000_scaled_clean <- df_1000_scaled_clean %>% filter(Diversity_metric_unit == "individuals")
+df_rich_1000_scaled_clean <- df_rich_1000_scaled_clean %>% filter(Diversity_metric_unit == "individuals")
 
 #SAVE-----------------------------------------------------------
 write.csv(df_1000_scaled_clean, "Intermediate_dataset/sites_for_abundance_models.csv", row.names = FALSE)

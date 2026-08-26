@@ -254,6 +254,33 @@ sites_mod <- sites_mod %>%
 #Adding new columns to the observation dataset
 observations_mod <- observations_mod %>% left_join(sites_mod %>% select(SSBS, Longitude_mod, Latitude_mod, Lat_Long_mod), by = "SSBS")
 
+#ESTIMATING TAXA AND GENUS RICHNESS BY SITE-----------------------------------------------------------
+#estimate taxa richness by site
+taxa_richness_by_site <- observations_mod %>%
+  filter(Measurement > 0) %>%
+  mutate(Lowest_Taxon = case_when( #"Lowest_Taxon" column picks the most specific name available
+    !is.na(Species) ~ Species,
+    !is.na(Genus)   ~ Genus,
+    !is.na(Family)  ~ Family,
+    !is.na(Order)   ~ Order,
+    TRUE            ~ Class)) %>%
+  group_by(SSBS) %>%
+  summarise(taxa_richness= n_distinct(Lowest_Taxon), #counts unique taxonomic entities
+            .groups = "drop")
+
+#merge taxa richness and total abundance with the sites dataframe
+sites_mod <- sites_mod %>%
+  left_join(taxa_richness_by_site %>% select(SSBS, taxa_richness), by = "SSBS")
+
+#estimate genus richness by site. 
+genus_richness <- observations_mod %>%
+  filter(Measurement > 0) %>%
+  group_by(SSBS) %>%
+  summarise(genus_richness= n_distinct(Genus), .groups = "drop")
+
+sites_mod <- sites_mod %>%
+  left_join(genus_richness, by = "SSBS")
+
 #SAVE  ------------------------------------------------------------
 write.csv(sites_mod, "Intermediate_dataset/sites_mod.csv",row.names = FALSE)
 write.csv(observations_mod, "Intermediate_dataset/observations_mod.csv",row.names = FALSE)

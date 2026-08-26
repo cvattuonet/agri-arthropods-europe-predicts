@@ -17,6 +17,7 @@ pacman::p_load(readr, lme4, glmmTMB)
 sites_df <- read_delim("Intermediate_dataset/sites_for_abundance_models.csv") 
 sites_df_richness <- read_delim("Intermediate_dataset/sites_for_richness_models.csv") 
 
+
 #ABUNDANCE NULL MODELS ------------------------------------------------------------
 #gaussian
 null_1 <- lmer(log_TA ~ 1 + (1 | SS) + (1 | SSB) , data = sites_df, REML = TRUE)

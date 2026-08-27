@@ -17,9 +17,9 @@ sites_df <- read_delim("Intermediate_dataset/sites_df.csv")
 observations_df <- read_delim("Intermediate_dataset/observations_df.csv")
 
 #PREPARATION ------------------------------------------------------------
-sites_mod <- sites_df
+sites_mod <- sites_df #I create a new dataframe to keep the original values in case someone wants to analyse them 
 
-sites_mod  <- sites_mod  %>%
+sites_mod  <- sites_mod  %>% #I create new columns to keep the original values of the columns that we will modify during the curation process
   mutate(Study_number_mod = Study_number,
          Site_number_mod = Site_number,
          Site_name_mod = Site_name,
@@ -30,12 +30,14 @@ sites_mod  <- sites_mod  %>%
          Longitude_mod = Longitude, 
          Latitude_mod = Latitude)
 
-sites_mod <- sites_mod %>%
+sites_mod <- sites_mod %>% #I a just reordering the columns so the new ones are not at the end of the dataframe
   select(Source_ID, Reference, Title, Study_number, Study_number_mod, Study_name,
          Site_number, Site_number_mod, Site_name, Site_name_mod, Block, Block_mod, Sampling_method, Sampling_method_mod, TA, TA_corrected, TA_corrected_mod, everything())
 
 #CURATION BY REFERENCE ------------------------------------------------------------
+#Details on the decision regardinf each reference are available in the supplementary information table with the detail documentation of the curation process. 
 ## BERG ET AL 2011  ------------------------------------------------------------
+#we fix one use that is incorrectly labeled. It should be "Pasture"
 target_row <- which(sites_mod$Reference == "Berg et al. 2011" &  sites_mod$Site_name == "HW_Berg_2011_R263_ABO_E")
 sites_mod[target_row, "Predominant_land_use"] <- "Pasture"
 
@@ -74,9 +76,8 @@ sites_mod <- sites_mod %>% filter(Reference != "Diekötter et al. 2006")
 sites_mod <- sites_mod %>%
   filter(!(Reference == "Gaublomme et al. 2008" & Site_name %in% c("Soignes urban", "Soignes suburban", "Soignes rural", "Soignes extra", "Verrewinkel", "Kleet")))
 
-
 ## HANLEY ET AL 2011  ------------------------------------------------------------
-#Giving separate study numbers to each year
+#Giving separate study numbers to each year. We do this becuase each year there are different sites being mesured. In general, if sites have timelines we do not assign a different study number
 sites_mod <- sites_mod %>%
   mutate(Study_number_mod = ifelse(Reference == "Hanley et al. 2011" & Sample_start_year == 2007, 1, Study_number_mod))
 sites_mod <- sites_mod %>%
@@ -97,7 +98,7 @@ sites_mod <- sites_mod %>% filter(!(Reference == "Herrmann et al. 2007" ))
 sites_mod <- sites_mod %>%filter(!(Reference == "Kohler et al. 2008" ))
 
 ## JONSELL 2012  ------------------------------------------------------------
-#Giving separate study numbers to each year
+#Giving separate study numbers to each year. Same explanation as Hanley.
 sites_mod <- sites_mod %>%
   mutate(Study_number_mod = ifelse(Reference == "Jonsell 2012" & Sample_start_year == 2001, 1, Study_number_mod))
 sites_mod <- sites_mod %>%
@@ -116,29 +117,6 @@ sites_mod <- sites_mod %>% filter(!(Reference == "Leighton-Goodall et al. 2012" 
 ## MEYER ET AL 2007  ------------------------------------------------------------
 #Take out Study 1
 sites_mod <- sites_mod %>% filter(!(Reference == "Meyer et al. 2007" & Study_number != 1))
-
-## SAMPLING EFFORT RECALCULATION (all studies)  ------------------------------------------------------------
-#Fixing the rescaled sampling effort and the effort-corrected abundance values 
-#PREDICTS states that the effort-corrected abundance values are the values corrected across sites within a Study by
-#dividing the abundance measurement by sampling effort" assuming that sampled abundances increase linearly with sampling effort
-#after first rescaling effort values within each Study to a maximum value of one
-#We recompute this ourselves for every study  by dividing Sampling_effort 
-#by the maximum Sampling_effort within each SS, since the released Rescaled_sampling_effort field shows 
-#internal inconsistencies for some sites, traced to an undocumented rescaling mechanism upstream in PREDICTS.
-
-sites_mod <- sites_mod %>%
-  mutate(Sampling_effort = as.numeric(Sampling_effort)) %>%
-  group_by(SS) %>%
-  mutate(Max_Sampling_effort = max(Sampling_effort, na.rm = TRUE),
-         Rescaled_sampling_effort_mod = Sampling_effort / Max_Sampling_effort) %>%
-  ungroup() %>%
-  select(-Max_Sampling_effort)
-
-#And now we modify TA_corrected_mod to be equal to TA / Rescaled_sampling_effort_mod for every site
-sites_mod <- sites_mod %>%
-  mutate(TA = as.numeric(TA),
-         Rescaled_sampling_effort_mod = as.numeric(Rescaled_sampling_effort_mod)) %>%
-  mutate(TA_corrected_mod = TA / Rescaled_sampling_effort_mod)
 
 ## OSGATHORPE ET AL. 2012  ------------------------------------------------------------
 sites_mod <- sites_mod %>%filter(!(SSBS == "AD1_2012__Osgathorpe 2  3" ))
@@ -215,12 +193,37 @@ sites_mod <- sites_mod %>%
   select(-Latitude_mod_smith2006_edges, -Longitude_mod_smith2006_edges)
 
 ## WOODCOCK ET AL. 2007  ------------------------------------------------------------
+#we keep only the control sites that are those with the 7 in the site name as those are the control ones
 sites_mod <- sites_mod %>% filter(!(Reference == "Woodcock et al. 2007" & !grepl("7", Site_name)))
 
 ## ADDITIONAL REMOVE OF SOURCES DUE TO LAND USE CATEGORIES DEFINITION  ------------------------------------------------------------
-#There are additional references that is necesary to take out because when we performe lated tha recategorization of habitats (leaving out some), those reference will not have more than one land use-use intensity to compare
+#There are additional references that is neccesary to take out because when we performed later the recategorization of habitats (leaving out some), those reference will not have more than one land use-use intensity to compare
 sources_to_delete <- c("Verboven et al. 2012",  "Leighton-Goodall et al. 2012", "Noreika 2009",  "Nielsen et al. 2011", "Gaublomme et al. 2008" , "Magura et al. 2010")
 sites_mod <- sites_mod %>%filter(!Reference%in% sources_to_delete)
+
+## SAMPLING EFFORT RECALCULATION ------------------------------------------------------------
+#Fixing the rescaled sampling effort and the effort-corrected abundance values 
+#PREDICTS states that the effort-corrected abundance values are the values corrected across sites within a Study by
+#dividing the abundance measurement by sampling effort" assuming that sampled abundances increase linearly with sampling effort
+#after first rescaling effort values within each Study to a maximum value of one
+#We recompute this ourselves for every study by dividing Sampling_effort 
+#by the maximum Sampling_effort within each SS, since the released Rescaled_sampling_effort field shows 
+#internal inconsistencies for some sites, traced to an undocumented rescaling mechanism upstream in PREDICTS.
+
+sites_mod <- sites_mod %>%
+  mutate(Sampling_effort = as.numeric(Sampling_effort)) %>%
+  group_by(SS) %>%
+  mutate(Max_Sampling_effort = max(Sampling_effort, na.rm = TRUE),
+         Rescaled_sampling_effort_mod = Sampling_effort / Max_Sampling_effort) %>%
+  ungroup() %>%
+  select(-Max_Sampling_effort)
+
+#And now we modify TA_corrected_mod to be equal to TA / Rescaled_sampling_effort_mod for every site
+sites_mod <- sites_mod %>%
+  mutate(TA = as.numeric(TA),
+         Rescaled_sampling_effort_mod = as.numeric(Rescaled_sampling_effort_mod)) %>%
+  mutate(TA_corrected_mod = TA / Rescaled_sampling_effort_mod)
+
 
 ### RECATGORIZATION OF LAND USE------------------------------------------------------------
 #creating a new column for the recategorizations, without loosing the original one
@@ -242,7 +245,6 @@ sites_mod <- sites_mod %>%
 #Leaving out none pasture, cropland or semi-natural vegetation categories
 sites_mod <- sites_mod %>% filter(!Predominant_land_use_mod %in%  c("Urban","Plantation forest", "Cannot decide"))
 
-
 ##FILTERING OBSERVATION LEVEL DATASET------------------------------------------------------------
 #Producing a new dataframe of observations filtered by the same changes we did to sites
 observations_mod <- observations_df %>% filter(SSBS %in% sites_mod$SSBS)
@@ -255,11 +257,12 @@ sites_mod <- sites_mod %>%
 observations_mod <- observations_mod %>% left_join(sites_mod %>% select(SSBS, Longitude_mod, Latitude_mod, Lat_Long_mod), by = "SSBS")
 
 #ESTIMATING TAXA AND GENUS RICHNESS BY SITE-----------------------------------------------------------
-#estimate taxa richness by site
+#estimate taxa richness by site. 
 taxa_richness_by_site <- observations_mod %>%
   filter(Measurement > 0) %>%
-  mutate(Lowest_Taxon = case_when( #"Lowest_Taxon" column picks the most specific name available
-    !is.na(Species) ~ Species,
+  mutate(Lowest_Taxon = case_when( #"Lowest_Taxon" column picks the most specific name available. 
+    #We could have also looked at the Rank column and then choose the value of the respective taxonomic level. 
+    !is.na(Species) ~ Species,  
     !is.na(Genus)   ~ Genus,
     !is.na(Family)  ~ Family,
     !is.na(Order)   ~ Order,
@@ -269,8 +272,7 @@ taxa_richness_by_site <- observations_mod %>%
             .groups = "drop")
 
 #merge taxa richness and total abundance with the sites dataframe
-sites_mod <- sites_mod %>%
-  left_join(taxa_richness_by_site %>% select(SSBS, taxa_richness), by = "SSBS")
+sites_mod <- sites_mod %>%  left_join(taxa_richness_by_site %>% select(SSBS, taxa_richness), by = "SSBS")
 
 #estimate genus richness by site. 
 genus_richness <- observations_mod %>%
@@ -278,8 +280,7 @@ genus_richness <- observations_mod %>%
   group_by(SSBS) %>%
   summarise(genus_richness= n_distinct(Genus), .groups = "drop")
 
-sites_mod <- sites_mod %>%
-  left_join(genus_richness, by = "SSBS")
+sites_mod <- sites_mod %>% left_join(genus_richness, by = "SSBS")
 
 #SAVE  ------------------------------------------------------------
 write.csv(sites_mod, "Intermediate_dataset/sites_mod.csv",row.names = FALSE)
